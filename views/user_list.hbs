@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+  <title>Fetch using MySQL and Node.js</title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div style="display:flex">  
+<h2 style="margin:40px">Display Data using Node.js & MySQL</h2>
+<button style="width:100px; height:46px;margin-top:40px;margin-left:450px;"type="button" class="btn btn-primary"onClick="location.href='/user_add'">Add User</button>
+</div>
+
+
+    <table class="table table-hover">
+       <thead class="thead-dark">
+        <tr>
+            <th>Full Name</th>
+            <th>last Name</th>
+            <th>Gender</th>
+            <th>City</th>
+            <th>Address</th>
+            <th>Action</th>
+</tr>
+</thead>
+
+{{#each userData}}
+        <tr>
+        <td>{{this.firstname}}</td>
+        <td>{{this.lastname}}</td>
+        <td>{{this.gender}}</td>
+        <td>{{this.city}}</td>
+        <td>{{this.address}}</td>
+         <td>
+            <a href="/edit-form/{{this.PersonID}}" class="btn btn-info btn-sm">Edit</a>
+            <a href="/delete/{{this.PersonID}}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+        </tr>
+        {{/each}}
+         </tr>
+          </table>
+  
+</body>
+</html>
