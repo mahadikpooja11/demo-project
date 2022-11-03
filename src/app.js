@@ -120,8 +120,6 @@ app.post('/insert', upload.single("file"), function (req, res) {
   const lastname = req.body.lastname;
   const gender = req.body.optradio;
   const file = req.body.file;
-  const city = req.body.city;
-  const address = req.body.address;
   console.log("gender", gender)
   var sql = `INSERT INTO users
             (
