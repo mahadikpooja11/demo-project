@@ -115,9 +115,6 @@ app.get('/user_list', function (req, res, next) {
 
 app.post('/insert', upload.single("file"), function (req, res) {
 
-
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
   const gender = req.body.optradio;
   const file = req.body.file;
   const city = req.body.city;
