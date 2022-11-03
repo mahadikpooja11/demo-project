@@ -135,6 +135,7 @@ app.post('/insert', upload.single("file"), function (req, res) {
 
 
   conn.query(sql, [firstname, lastname, gender, city, address, file], function (err, result) {
+    
     if (err) {
       console.log(err)
 
