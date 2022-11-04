@@ -114,7 +114,7 @@ app.post('/insert', upload.single("file"), function (req, res) {
                 ?, ?,?,?,?,?
             )`;
   // var sql = `INSERT INTO persons(username,password)VALUES(username,password);`;
- conn.query(sql, [firstname, lastname, gender, city, address, file], function (err, result) {
+  conn.query(sql, [firstname, lastname, gender, city, address, file], function (err, result) {
     if (err) {
       console.log(err)
     }
@@ -130,16 +130,16 @@ app.get('/edit-form/:id', function (req, res, next) {
   // console.log("id",id)
   var sql = `SELECT * FROM users WHERE PersonID=${id}`;
   conn.query(sql, function (err, rows, fields) {
-    console.log("id",rows[0])
+    console.log("id", rows[0])
     res.render('editform.hbs', { title: 'Edit User', user: rows[0] });
   });
 });
-app.post('/edit/:id',upload.single("file"), function (req, res, next) {
+app.post('/edit/:id', upload.single("file"), function (req, res, next) {
   var id = req.params.id;
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const gender = req.body.optradio;
-  const file=req.body.file;
+  const file = req.body.file;
   const city = req.body.city;
   const address = req.body.address;
   var sql = `UPDATE users SET firstname="${firstname}", lastname="${lastname}",gender="${gender}",city="${city}",address="${address}",file="${file}" WHERE PersonID=${id}`;
