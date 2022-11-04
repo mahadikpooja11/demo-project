@@ -8,6 +8,11 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
+  {{!-- {{#if(success !=" ")}}
+  <div class="alert alert-success">
+  <strong>Success!</strong> {{success}}
+</div>
+{{/if}} --}}
     <div class="container">
   <h2 style="text-align: center;">Registration Form</h2>
   <form action="/insert" method="post">
@@ -40,6 +45,11 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+</div>
+{{!-- <div class="flash-messages">
+  {{#each this.flashMessages.queue as |flash|}}
+  <FlashMessage @flash={{flash}} />
+{{/each}} --}}
 </div>
 </body>
 </html>

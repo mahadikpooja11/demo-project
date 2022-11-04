@@ -1,0 +1,49 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+</head>
+
+
+
+<body>
+<label for="file" id="filelabel">
+<button>Select File</button>
+<span>Please select File</span>
+</label>
+<input type="file" id="file" hidden />
+</body>
+
+<script>
+    const filelabel = document.querySelector("#filelabel");
+    const button = filelabel.children[0];
+    const filelabelText = filelabel.children[1];
+    const file = document.querySelector("#file");
+
+
+
+  button.onclick = function () {
+      file.click();
+    };
+
+
+
+  file.onchange = function () {
+      const path = this.value;
+      const pathArray = path.split("\\");
+      const filename = pathArray[pathArray.length - 1];
+      filelabelText.textContent = filename;
+    };
+
+
+
+</script>
+
+
+
+</html>
+
+

@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
+const flash = require('connect-flash');
 const multer = require('multer')
 const path = require('path');
 const conn = mysql.createConnection({
@@ -10,7 +11,6 @@ const conn = mysql.createConnection({
   database: "nodelogin",
 
 })
-
 conn.connect((err) => {
   if (err) {
     console.log(err)
@@ -28,17 +28,14 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'static')));
+app.use(flash());
 const hbs = require('hbs')
 const publicDirectoryPath = path.join(__dirname, "../public")
 app.use(express.static(publicDirectoryPath))
 app.set("view engine", 'hbs')
-
 hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
-
-
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log("filename", file)
@@ -57,10 +54,6 @@ const fileFilter = (req, file, cb) => {
   }
 
 }
-
-
-
-
 const upload = multer({
   storage: storage
   , limits: {
@@ -92,29 +85,19 @@ const upload = multer({
 // })
 
 app.get('/user_add', function (req, res) {
-  // res.sendFile(path.join(__dirname, '/login.html');
   res.render("user_add.hbs")
 });
 app.get('/', function (req, res) {
-  // res.sendFile(path.join(__dirname, '/login.html');
   res.render("user_list.hbs")
 });
-
-
-
 app.get('/user_list', function (req, res, next) {
   var sql = 'SELECT * FROM users WHERE IsDeleted=0';
   conn.query(sql, function (err, data, fields) {
-
     if (err) throw err;
     res.render('user_list.hbs', { title: 'User List', userData: data, name: "hhh" });
   });
 });
-
-
-
 app.post('/insert', upload.single("file"), function (req, res) {
-
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const gender = req.body.optradio;
@@ -131,15 +114,12 @@ app.post('/insert', upload.single("file"), function (req, res) {
                 ?, ?,?,?,?,?
             )`;
   // var sql = `INSERT INTO persons(username,password)VALUES(username,password);`;
-
-
-  conn.query(sql, [firstname, lastname, gender, city, address, file], function (err, result) {
-    
+ conn.query(sql, [firstname, lastname, gender, city, address, file], function (err, result) {
     if (err) {
       console.log(err)
-
     }
     else {
+      res.redirect('/user_list');
       console.log("result", result)
     }
 
@@ -155,7 +135,6 @@ app.get('/edit-form/:id', function (req, res, next) {
   });
 });
 app.post('/edit/:id',upload.single("file"), function (req, res, next) {
-  
   var id = req.params.id;
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
@@ -164,11 +143,11 @@ app.post('/edit/:id',upload.single("file"), function (req, res, next) {
   const city = req.body.city;
   const address = req.body.address;
   var sql = `UPDATE users SET firstname="${firstname}", lastname="${lastname}",gender="${gender}",city="${city}",address="${address}",file="${file}" WHERE PersonID=${id}`;
-
   conn.query(sql, function (err, result) {
     if (err) throw err;
     console.log('record updated!');
-    // res.redirect('/user_list');
+    req.flash('message', 'record Updated!!');
+    res.redirect('/user_list');
   });
 
 });
@@ -181,8 +160,12 @@ app.get('/delete/:id', function (req, res) {
   conn.query(sql, function (err, result) {
     if (err) throw err;
     console.log('record deleted!');
+    req.flash('message', 'record deleted!!');
     res.redirect('/user_list');
   });
+});
+app.get('/gfg', (req, res) => {
+  res.send(req.flash('message'));
 });
 
 
